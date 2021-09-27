@@ -24,7 +24,7 @@ function App() {
 
   return (
     <Container>
-      <GameBoard></GameBoard>
+      <GameBoard turn = {turn}></GameBoard>
       <Button primary onClick={() => setTurn(prev => prev + 1)}> Reset </Button>
     </Container>
   );

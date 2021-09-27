@@ -1,5 +1,5 @@
 import GameCard from '../GameCard/GameCard';
-import {useState, useRef} from 'react';
+import {useState, useRef, useEffect} from 'react';
 import styled from 'styled-components';
 
 import card_1 from '../../assets/1.jpg';
@@ -35,8 +35,10 @@ const GameBoardDiv = styled.div`
     width: 500px;
 `;
 
-function GameBoard() {
-    const [cards, setCards] = useState(() => {
+function GameBoard({turn}) {
+    const [cards, setCards] = useState([]);
+
+    useEffect(() => {
         const getImageList = (level = 'easy') => {
             let totalImages = [
                 card_1, card_2, card_3, card_4, card_5,
@@ -45,7 +47,7 @@ function GameBoard() {
                 card_16, card_17, card_18, card_19, card_20, 
             ];
     
-            let usedImages;
+            let usedImages, imageObjs;
     
             switch (level) {
             case 'easy': 
@@ -63,49 +65,58 @@ function GameBoard() {
             default: 
                 break;
             }
-            return usedImages.concat(usedImages);
-        }
+
+            imageObjs = usedImages.map((item, index) => {
+                return {
+                    src: item,
+                    id: index
+                }
+            })
+            return imageObjs.concat(imageObjs);
+        };
     
         const shuffleArray = (array) => {
-            var rIndex = array.length, 
-                temp, 
-                i;
+            for (let k = 3; k >= 0; k--){ //shuffle 3 times
+                let rIndex = array.length, 
+                    temp, 
+                    i;
     
-            while (rIndex) {      
-              i = Math.floor(Math.random() * rIndex--);
-          
-              temp = array[rIndex];
-              array[rIndex] = array[i];
-              array[i] = temp;
-            }
-          
-            return array;
+                while (rIndex) {      
+                    i = Math.floor(Math.random() * rIndex--);
+                
+                    temp = array[rIndex];
+                    array[rIndex] = array[i];
+                    array[i] = temp;
+                }
+            
+                return array;
+            }            
         }
 
-        return shuffleArray(getImageList());
-    });
+        setCards(shuffleArray(getImageList()));
+    }, [turn]);
 
     const clickID1 = useRef(null);    
 
     const handleClick = (src) => {
+        console.log(clickID1.current, src, clickID1.current === src);
         if (clickID1.current === null) {
             clickID1.current = src;
         } else {
             if (clickID1.current === src) {
                 // do some magic
-            } else {
-                clickID1.current = null;
             }
+            clickID1.current = null;
         }
     }
     
     return (
         <GameBoardDiv>
-            {cards.map((image, i) => (
+            {cards.map((imageObj, i) => (
                 <GameCard
                     key={i}
-                    imgSrc={image}
-                    onClick={() => handleClick(image)}
+                    imgSrc={imageObj.src}
+                    onClick={() => handleClick(imageObj.id)}
                 />
             ))}
         </GameBoardDiv>
