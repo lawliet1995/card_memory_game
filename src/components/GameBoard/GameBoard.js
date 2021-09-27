@@ -96,17 +96,19 @@ function GameBoard({turn}) {
         setCards(shuffleArray(getImageList()));
     }, [turn]);
 
-    const clickID1 = useRef(null);    
+    const firstClickId = useRef(null);
+    const imagesRef = useRef([]);
 
-    const handleClick = (src) => {
-        console.log(clickID1.current, src, clickID1.current === src);
-        if (clickID1.current === null) {
-            clickID1.current = src;
+    const handleClick = (src, i) => {
+        console.log(firstClickId.current, src, firstClickId.current === src);
+        console.log(imagesRef.current[i])
+        if (firstClickId.current === null) {
+            firstClickId.current = src;
         } else {
-            if (clickID1.current === src) {
+            if (firstClickId.current === src) {
                 // do some magic
             }
-            clickID1.current = null;
+            firstClickId.current = null;
         }
     }
     
@@ -115,8 +117,9 @@ function GameBoard({turn}) {
             {cards.map((imageObj, i) => (
                 <GameCard
                     key={i}
+                    innerRef = {el => imagesRef.current[i] = el}
                     imgSrc={imageObj.src}
-                    onClick={() => handleClick(imageObj.id)}
+                    onClick={() => handleClick(imageObj.id, i)}
                 />
             ))}
         </GameBoardDiv>

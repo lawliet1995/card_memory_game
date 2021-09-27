@@ -1,10 +1,9 @@
-import styled, { css } from 'styled-components'
+import styled, { css } from 'styled-components';
 
 const CardSpace = styled.div`
     border-radius: 5px;
     margin: 10px;
     cursor: pointer;
-    overflow: hidden;
     transform-style: preserve-3d;
     transition: transform 0.5s;
 `;
@@ -21,12 +20,14 @@ const CardImg = styled.img`
         `};
 `;
 
-const GameCard = ({ imgSrc, onClick }) => {
-  return (
-    <CardSpace onClick={onClick}>
-      <CardImg src={imgSrc}></CardImg>
-    </CardSpace>
-  );
+const GameCard = ({ imgSrc, innerRef, onClick: clickHandler }) => {
+    return (
+        <CardSpace >
+            <CardImg ref={innerRef} src={imgSrc} onClick={
+                () => {clickHandler();}                
+            }></CardImg>
+        </CardSpace>
+    );
 };
 
 export default GameCard;
