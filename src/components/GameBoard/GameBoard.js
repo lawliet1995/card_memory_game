@@ -38,6 +38,9 @@ const GameBoardDiv = styled.div`
 function GameBoard({turn}) {
     const [cards, setCards] = useState([]);
 
+    const firstClickId = useRef(null);
+    const imagesRef = useRef([]);
+
     useEffect(() => {
         const getImageList = (level = 'easy') => {
             let totalImages = [
@@ -95,9 +98,6 @@ function GameBoard({turn}) {
 
         setCards(shuffleArray(getImageList()));
     }, [turn]);
-
-    const firstClickId = useRef(null);
-    const imagesRef = useRef([]);
 
     const handleClick = (src, i) => {
         console.log(firstClickId.current, src, firstClickId.current === src);
