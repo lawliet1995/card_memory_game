@@ -26,8 +26,8 @@ import card_20 from '../../assets/20.jpg';
 const GameBoardDiv = styled.div`
     margin: auto;
     height: 650px;
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 100px 100px 100px 100px 100px;
     margin-bottom: 15px;
     align-content: center;
     perspective: 1000px;
@@ -39,6 +39,8 @@ function GameBoard({turn}) {
     const [cards, setCards] = useState([]);
 
     const firstClickId = useRef(null);
+    const firstClickIndex = useRef(null);
+    const preventClick = useRef(false);
     const imagesRef = useRef([]);
 
     useEffect(() => {
@@ -99,16 +101,33 @@ function GameBoard({turn}) {
         setCards(shuffleArray(getImageList()));
     }, [turn]);
 
-    const handleClick = (src, i) => {
-        console.log(firstClickId.current, src, firstClickId.current === src);
-        console.log(imagesRef.current[i])
+    const handleClick = (id, index) => {
+        if (preventClick.current) return;
+
+        imagesRef.current[index].style.transform = 'rotateY(180deg)';
+
         if (firstClickId.current === null) {
-            firstClickId.current = src;
+            firstClickId.current = id;
+            firstClickIndex.current = index;
         } else {
-            if (firstClickId.current === src) {
-                // do some magic
-            }
-            firstClickId.current = null;
+            preventClick.current = true;
+
+            setTimeout(() => {
+                if (firstClickId.current === id) {
+                    imagesRef.current[index].style.transform = 'rotateY(180deg) scale(0)';
+                    imagesRef.current[firstClickIndex.current].style.transform = 'rotateY(180deg) scale(0)';
+                } else {
+                    imagesRef.current[index].style.transform = 'rotateY(0deg)';
+                    imagesRef.current[firstClickIndex.current].style.transform = 'rotateY(0deg)';
+                }
+                                
+                firstClickId.current = null;
+                firstClickIndex.current = null;
+                preventClick.current = false;
+            }, 1000)
+
+            
+            
         }
     }
     
