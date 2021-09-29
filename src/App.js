@@ -13,6 +13,12 @@ const Button = styled.button`
   margin: auto;
 `;
 
+const RadioField = styled.div`
+  margin: auto;
+  text-align: center;
+  padding: 20px;
+`;
+
 const Container = styled.div`
   width: 100%;
   margin: 0 1em;
@@ -26,7 +32,15 @@ function App() {
   return (
     <Container>
       <GameBoard turn = {turn} level = {level}></GameBoard>
-      <Button primary onClick={() => setTurn(prev => prev + 1)}> Reset </Button>
+      <RadioField>
+        <input type="radio" name="level" value="easy" onClick={() => setLevel('easy')} defaultChecked />
+        <label htmlFor="huey">Easy</label>
+        <input type="radio" name="level" value="medium" onClick={() => setLevel('medium')} />
+        <label htmlFor="huey">Medium</label>
+        <input type="radio" name="level" value="hard" onClick={() => setLevel('hard')} />
+        <label htmlFor="huey">Hard</label>
+      </RadioField>      
+      <Button onClick={() => setTurn(prev => prev + 1)}> Reset </Button>
     </Container>
   );
 }

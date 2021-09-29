@@ -25,7 +25,6 @@ import card_20 from '../../assets/20.jpg';
 
 const GameBoardDiv = styled.div`
     margin: auto;
-    height: 650px;
     display: grid;
     margin-bottom: 15px;
     align-content: center;
@@ -79,19 +78,17 @@ function GameBoard({turn, level}) {
             let usedImages, imageObjs;
     
             switch (level) {
-            case 'easy': 
-                usedImages = totalImages.slice(0, 10);
-                break;
-    
-            case 'medium': 
-                usedImages = totalImages.slice(0, 14);
-                break;
-    
             case 'hard': 
                 usedImages = totalImages.slice(0, 18);
                 break;
-    
+
+            case 'medium': 
+                usedImages = totalImages.slice(0, 14);
+                break;
+
+            case 'easy': 
             default: 
+                usedImages = totalImages.slice(0, 10);
                 break;
             }
 
