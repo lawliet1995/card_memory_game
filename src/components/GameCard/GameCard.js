@@ -1,16 +1,26 @@
 import styled, { css } from 'styled-components';
 
-const CardSpace = styled.div`
+const CardCamera = styled.div`
     border-radius: 5px;
     margin: 10px;
     cursor: pointer;
+    perspective: 1000px;
     transform-style: preserve-3d;
-    transition: transform 0.5s;
+`;
+
+const CardSpace = styled.div`
+    transform-style: preserve-3d;
+    position: relative;
+    width: 80px;
+    height: 120px;
+    transition-duration: 0.5s;
 `;
 
 const CardImg = styled.img`
+    position: absolute;
     width: 80px;
     height: 120px;
+    transform: translateZ(0px) rotateY(180deg);
 
     ${props =>
         props.primary &&
@@ -20,13 +30,21 @@ const CardImg = styled.img`
         `};
 `;
 
-const GameCard = ({ imgSrc, innerRef, onClick: clickHandler }) => {
+const CardBack = styled.div`
+    position: absolute;
+    width: 80px;
+    height: 120px;
+    background-color: palevioletred;
+`;
+
+const GameCard = ({ imgSrc, innerRef, onClick }) => {
     return (
-        <CardSpace >
-            <CardImg ref={innerRef} src={imgSrc} onClick={
-                () => {clickHandler();}                
-            }></CardImg>
-        </CardSpace>
+        <CardCamera onClick={onClick}>
+            <CardSpace ref={innerRef}>
+                <CardImg src={imgSrc} ></CardImg>
+                <CardBack></CardBack>
+            </CardSpace>            
+        </CardCamera>
     );
 };
 
