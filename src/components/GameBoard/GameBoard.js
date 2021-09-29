@@ -1,6 +1,6 @@
 import GameCard from '../GameCard/GameCard';
 import {useState, useRef, useEffect} from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import card_1 from '../../assets/1.jpg';
 import card_2 from '../../assets/2.jpg';
@@ -27,15 +27,39 @@ const GameBoardDiv = styled.div`
     margin: auto;
     height: 650px;
     display: grid;
-    grid-template-columns: 100px 100px 100px 100px 100px;
     margin-bottom: 15px;
     align-content: center;
     perspective: 1000px;
-
-    width: 500px;
+    
+    ${props => {
+        let gridSetting;
+            switch (props.level) {
+                case 'hard':
+                    gridSetting = css`
+                    grid-template-columns: 100px 100px 100px 100px 100px 100px 100px 100px 100px;
+                    width: 900px;
+                    `
+                    break;
+                case 'medium':
+                    gridSetting = css`
+                    grid-template-columns: 100px 100px 100px 100px 100px 100px 100px ;
+                    width: 700px;
+                    `
+                    break;
+                default:
+                case 'easy':
+                    gridSetting = css`
+                    grid-template-columns: 100px 100px 100px 100px 100px;
+                    width: 500px;
+                    `
+                    break;
+            }
+            return gridSetting;
+        }
+    }
 `;
 
-function GameBoard({turn}) {
+function GameBoard({turn, level}) {
     const [cards, setCards] = useState([]);
 
     const firstClickId = useRef(null);
@@ -60,11 +84,11 @@ function GameBoard({turn}) {
                 break;
     
             case 'medium': 
-                usedImages = totalImages.slice(0, 15);
+                usedImages = totalImages.slice(0, 14);
                 break;
     
             case 'hard': 
-                usedImages = totalImages.slice(0, 20);
+                usedImages = totalImages.slice(0, 18);
                 break;
     
             default: 
@@ -98,8 +122,8 @@ function GameBoard({turn}) {
             }            
         }
 
-        setCards(shuffleArray(getImageList()));
-    }, [turn]);
+        setCards(shuffleArray(getImageList(level)));
+    }, [turn, level]);
 
     const handleClick = (id, index) => {
         if (preventClick.current) return;
@@ -124,21 +148,20 @@ function GameBoard({turn}) {
                 firstClickId.current = null;
                 firstClickIndex.current = null;
                 preventClick.current = false;
-            }, 1000)
-
-            
+            }, 1000);
             
         }
     }
     
     return (
-        <GameBoardDiv>
+        <GameBoardDiv level={level}>
             {cards.map((imageObj, i) => (
                 <GameCard
-                    key={i}
+                    key = {i}
                     innerRef = {el => imagesRef.current[i] = el}
-                    imgSrc={imageObj.src}
-                    onClick={() => handleClick(imageObj.id, i)}
+                    imgSrc = {imageObj.src}
+                    onClick = {() => handleClick(imageObj.id, i)}
+                    level = {level}
                 />
             ))}
         </GameBoardDiv>

@@ -21,10 +21,11 @@ const Container = styled.div`
 
 function App() {
   const [turn, setTurn] = useState(0);
+  const [level, setLevel] = useState('easy');
 
   return (
     <Container>
-      <GameBoard turn = {turn}></GameBoard>
+      <GameBoard turn = {turn} level = {level}></GameBoard>
       <Button primary onClick={() => setTurn(prev => prev + 1)}> Reset </Button>
     </Container>
   );

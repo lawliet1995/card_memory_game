@@ -37,7 +37,7 @@ const CardBack = styled.div`
     background-color: palevioletred;
 `;
 
-const GameCard = ({ imgSrc, innerRef, onClick }) => {
+const GameCard = ({ imgSrc, innerRef, onClick, level }) => {
     return (
         <CardCamera onClick={onClick}>
             <CardSpace ref={innerRef}>
