@@ -23,6 +23,8 @@ import card_18 from '../../assets/18.jpg';
 import card_19 from '../../assets/19.jpg';
 import card_20 from '../../assets/20.jpg';
 
+let setTimeoutId = 0;
+
 const GameBoardDiv = styled.div`
     margin: auto;
     display: grid;
@@ -119,11 +121,25 @@ function GameBoard({turn, level}) {
             }            
         }
 
+        if (imagesRef.current.length > 0) {
+            for (let iRef of imagesRef.current) {
+                if (iRef) {
+                    iRef.style.transform = 'rotateY(0deg)';
+                }
+            }
+        }
+
+        firstClickId.current = null;
+        firstClickIndex.current = null;
+        preventClick.current = false;
+
         setCards(shuffleArray(getImageList(level)));
+
+        return () => {clearTimeout(setTimeoutId)}
     }, [turn, level]);
 
     const handleClick = (id, index) => {
-        if (preventClick.current) return;
+        if (preventClick.current || imagesRef.current[index].disappear) return;
 
         imagesRef.current[index].style.transform = 'rotateY(180deg)';
 
@@ -133,10 +149,12 @@ function GameBoard({turn, level}) {
         } else {
             preventClick.current = true;
 
-            setTimeout(() => {
+            setTimeoutId = setTimeout(() => {
                 if (firstClickId.current === id) {
                     imagesRef.current[index].style.transform = 'rotateY(180deg) scale(0)';
                     imagesRef.current[firstClickIndex.current].style.transform = 'rotateY(180deg) scale(0)';
+                    imagesRef.current[index].disappear = true;
+                    imagesRef.current[firstClickIndex.current].disappear = true;
                 } else {
                     imagesRef.current[index].style.transform = 'rotateY(0deg)';
                     imagesRef.current[firstClickIndex.current].style.transform = 'rotateY(0deg)';

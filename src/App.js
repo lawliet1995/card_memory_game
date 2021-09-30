@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import styled from 'styled-components';
 import GameBoard from './components/GameBoard/GameBoard';
 
@@ -28,19 +28,28 @@ const Container = styled.div`
 function App() {
   const [turn, setTurn] = useState(0);
   const [level, setLevel] = useState('easy');
+  const selectedLevel = useRef('easy');
 
   return (
     <Container>
       <GameBoard turn = {turn} level = {level}></GameBoard>
       <RadioField>
-        <input type="radio" name="level" value="easy" onClick={() => setLevel('easy')} defaultChecked />
+        <input type="radio" name="level" value="easy" 
+          onClick={() => {selectedLevel.current = 'easy'}} defaultChecked />
         <label htmlFor="huey">Easy</label>
-        <input type="radio" name="level" value="medium" onClick={() => setLevel('medium')} />
+
+        <input type="radio" name="level" value="medium" 
+          onClick={() => {selectedLevel.current = 'medium'}} />
         <label htmlFor="huey">Medium</label>
-        <input type="radio" name="level" value="hard" onClick={() => setLevel('hard')} />
+
+        <input type="radio" name="level" value="hard" 
+          onClick={() => {selectedLevel.current = 'hard'}} />
         <label htmlFor="huey">Hard</label>
       </RadioField>      
-      <Button onClick={() => setTurn(prev => prev + 1)}> Reset </Button>
+      <Button onClick={() => {
+        setTurn(prev => prev + 1);
+        setLevel(selectedLevel.current);
+      }}> Reset </Button>
     </Container>
   );
 }
