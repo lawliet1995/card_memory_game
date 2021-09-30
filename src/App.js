@@ -25,6 +25,10 @@ const Container = styled.div`
   padding: 0.25em 1em;
 `;
 
+const RadioLabel = styled.label`
+  padding: 0px 4px 0 0;
+`;
+
 function App() {
   const [turn, setTurn] = useState(0);
   const [level, setLevel] = useState('easy');
@@ -36,15 +40,15 @@ function App() {
       <RadioField>
         <input type="radio" name="level" value="easy" 
           onClick={() => {selectedLevel.current = 'easy'}} defaultChecked />
-        <label htmlFor="huey">Easy</label>
+        <RadioLabel htmlFor="huey">Easy</RadioLabel>
 
         <input type="radio" name="level" value="medium" 
           onClick={() => {selectedLevel.current = 'medium'}} />
-        <label htmlFor="huey">Medium</label>
+        <RadioLabel htmlFor="huey">Medium</RadioLabel>
 
         <input type="radio" name="level" value="hard" 
           onClick={() => {selectedLevel.current = 'hard'}} />
-        <label htmlFor="huey">Hard</label>
+        <RadioLabel htmlFor="huey">Hard</RadioLabel>
       </RadioField>      
       <Button onClick={() => {
         setTurn(prev => prev + 1);
