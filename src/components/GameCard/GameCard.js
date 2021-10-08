@@ -20,7 +20,7 @@ const CardImg = styled.img`
     position: absolute;
     width: 80px;
     height: 120px;
-    transform: translateZ(0px) rotateY(180deg);
+    transform: translateZ(-0.01px) rotateY(180deg);
 
     ${props =>
         props.primary &&
