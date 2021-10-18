@@ -37,21 +37,21 @@ const GameBoardDiv = styled.div`
             switch (props.level) {
                 case 'hard':
                     gridSetting = css`
-                    grid-template-columns: 100px 100px 100px 100px 100px 100px 100px 100px 100px;
-                    width: 900px;
+                        grid-template-columns: repeat(9, 1fr);
+                        width: 900px;
                     `
                     break;
                 case 'medium':
                     gridSetting = css`
-                    grid-template-columns: 100px 100px 100px 100px 100px 100px 100px ;
-                    width: 700px;
+                        grid-template-columns: repeat(7, 1fr);
+                        width: 700px;
                     `
                     break;
                 default:
                 case 'easy':
                     gridSetting = css`
-                    grid-template-columns: 100px 100px 100px 100px 100px;
-                    width: 500px;
+                        grid-template-columns: repeat(5, 1fr);
+                        width: 500px;
                     `
                     break;
             }
